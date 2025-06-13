@@ -1,12 +1,15 @@
-import { getAllCheatsheets } from '@/utils/markdown';
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
-export function GET() {
+export async function GET() {
   try {
-    const cheatsheets = getAllCheatsheets();
+    const { getAllCheatsheets } = await import("@/utils/markdown");
+    const cheatsheets = await getAllCheatsheets(); // <- also await here
     return NextResponse.json(cheatsheets);
   } catch (error) {
-    console.error('Error fetching cheatsheets:', error);
-    return NextResponse.json({ error: 'Failed to fetch cheatsheets' }, { status: 500 });
+    console.error("Error fetching cheatsheets:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch cheatsheets" },
+      { status: 500 },
+    );
   }
-} 
+}
